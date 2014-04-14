@@ -82,9 +82,9 @@ const char *g_ppszRandomCitizenModels[] =
 const char *g_ppszRandomCombineModels[] =
 {
 	"models/combine_soldier.mdl",
-	"models/combine_soldier_prisonguard.mdl",
-	"models/combine_super_soldier.mdl",
-	"models/police.mdl",
+	//"models/combine_soldier_prisonguard.mdl",
+	//"models/combine_super_soldier.mdl",
+	//"models/police.mdl",
 };
 
 
@@ -155,6 +155,7 @@ void CHL2MP_Player::Precache( void )
 	PrecacheScriptSound( "NPC_MetroPolice.Die" );
 	PrecacheScriptSound( "NPC_CombineS.Die" );
 	PrecacheScriptSound( "NPC_Citizen.die" );
+	PrecacheScriptSound( "HS.die" );
 }
 
 void CHL2MP_Player::GiveAllItems( void )
@@ -1285,7 +1286,9 @@ void CHL2MP_Player::DeathSound( const CTakeDamageInfo &info )
 
 	char szStepSound[128];
 
-	Q_snprintf( szStepSound, sizeof( szStepSound ), "%s.Die", GetPlayerModelSoundPrefix() );
+	//Q_snprintf( szStepSound, sizeof( szStepSound ), "%s.Die", GetPlayerModelSoundPrefix() );
+
+	Q_snprintf( szStepSound, sizeof( szStepSound ), "HS.Die"/*, GetPlayerModelSoundPrefix()*/ );
 
 	const char *pModelName = STRING( GetModelName() );
 
