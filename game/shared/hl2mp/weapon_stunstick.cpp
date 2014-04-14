@@ -37,7 +37,7 @@
 extern ConVar metropolice_move_and_melee;
 
 #define	STUNSTICK_RANGE				75.0f
-#define	STUNSTICK_REFIRE			0.8f
+#define	STUNSTICK_REFIRE			0.1f
 #define	STUNSTICK_BEAM_MATERIAL		"sprites/lgtning.vmt"
 #define STUNSTICK_GLOW_MATERIAL		"sprites/light_glow02_add"
 #define STUNSTICK_GLOW_MATERIAL2	"effects/blueflare1"
@@ -762,8 +762,8 @@ void C_WeaponStunStick::DrawThirdPersonEffects( void )
 			beamInfo.m_nType = TE_BEAMTESLA;
 			beamInfo.m_pszModelName = STUNSTICK_BEAM_MATERIAL;
 			beamInfo.m_flHaloScale = 0.0f;
-			beamInfo.m_flLife = 0.01f;
-			beamInfo.m_flWidth = random->RandomFloat( 1.0f, 3.0f );
+			beamInfo.m_flLife = 1.0f;
+			beamInfo.m_flWidth = random->RandomFloat( 10.0f, 30.0f );
 			beamInfo.m_flEndWidth = 0;
 			beamInfo.m_flFadeLength = 0.0f;
 			beamInfo.m_flAmplitude = random->RandomFloat( 1, 2 );
@@ -771,7 +771,7 @@ void C_WeaponStunStick::DrawThirdPersonEffects( void )
 			beamInfo.m_flSpeed = 0.0;
 			beamInfo.m_nStartFrame = 0.0;
 			beamInfo.m_flFrameRate = 1.0f;
-			beamInfo.m_flRed = 255.0f;;
+			beamInfo.m_flRed = 0.0f;;
 			beamInfo.m_flGreen = 255.0f;
 			beamInfo.m_flBlue = 255.0f;
 			beamInfo.m_nSegments = 16;
