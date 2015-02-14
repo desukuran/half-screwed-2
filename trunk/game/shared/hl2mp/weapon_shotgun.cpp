@@ -308,7 +308,7 @@ void CWeaponShotgun::PrimaryAttack( void )
 	SendWeaponAnim( ACT_VM_PRIMARYATTACK );
 
 	// Don't fire again until fire animation has completed
-	m_flNextPrimaryAttack = gpGlobals->curtime + 0.01;// + SequenceDuration();
+	m_flNextPrimaryAttack = gpGlobals->curtime + SequenceDuration();
 	m_iClip1 -= 1;
 
 	// player "shoot" animation
@@ -333,7 +333,7 @@ void CWeaponShotgun::PrimaryAttack( void )
 		pPlayer->SetSuitUpdate("!HEV_AMO0", FALSE, 0); 
 	}
 
-	//m_bNeedPump = true;
+	m_bNeedPump = true;
 }
 
 //-----------------------------------------------------------------------------

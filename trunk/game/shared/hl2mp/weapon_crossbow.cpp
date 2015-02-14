@@ -614,11 +614,11 @@ void CWeaponCrossbow::FireBolt( void )
 {
 	if ( m_iClip1 <= 0 )
 	{
-		//if ( !m_bFireOnEmpty )
-		//{
-		//	Reload();
-		//}
-		if ( m_bFireOnEmpty )
+		if ( !m_bFireOnEmpty )
+		{
+			Reload();
+		}
+		else
 		{
 			WeaponSound( EMPTY );
 			m_flNextPrimaryAttack = 0.15;

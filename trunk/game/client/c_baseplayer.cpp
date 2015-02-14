@@ -2081,8 +2081,8 @@ void C_BasePlayer::GetToolRecordingState( KeyValues *msg )
 		Vector cam_ofs = g_ThirdPersonManager.GetCameraOffsetAngles();
 		
 		QAngle camAngles;
-		camAngles[ PITCH ] = cam_ofs[ PITCH ];
-		camAngles[ YAW ] = cam_ofs[ YAW ];
+		camAngles[ PITCH ] = 0;
+		camAngles[ YAW ] = -90;
 		camAngles[ ROLL ] = 0;
 
 		Vector camForward, camRight, camUp;

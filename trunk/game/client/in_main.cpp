@@ -672,8 +672,24 @@ void CInput::AdjustYaw( float speed, QAngle& viewangles )
 {
 	if ( !(in_strafe.state & 1) )
 	{
-		viewangles[YAW] -= speed*cl_yawspeed.GetFloat() * KeyState (&in_right);
-		viewangles[YAW] += speed*cl_yawspeed.GetFloat() * KeyState (&in_left);
+		//viewangles[YAW] -= speed*cl_yawspeed.GetFloat() * KeyState (&in_right);
+		//viewangles[YAW] += speed*cl_yawspeed.GetFloat() * KeyState (&in_left);
+		if (KeyState (&in_forward))
+		{
+			viewangles[YAW] = 0;
+			if (!KeyState(&in_lookup) || !KeyState(&in_lookdown))
+			{		
+				viewangles[PITCH] = 0.0f;
+			}
+		}
+		if (KeyState (&in_back))
+		{
+			viewangles[YAW] = 180;
+			if (!KeyState(&in_lookup) || !KeyState(&in_lookdown))
+			{		
+				viewangles[PITCH] = 0.0f;
+			}
+		}
 	}
 
 	// thirdperson platformer mode
@@ -717,8 +733,28 @@ void CInput::AdjustPitch( float speed, QAngle& viewangles )
 		up		= KeyState ( &in_lookup );
 		down	= KeyState ( &in_lookdown );
 		
-		viewangles[PITCH] -= speed*cl_pitchspeed.GetFloat() * up;
-		viewangles[PITCH] += speed*cl_pitchspeed.GetFloat() * down;
+		if (KeyState( &in_lookup))
+		{
+			if (KeyState( &in_forward) || KeyState( &in_back))
+			{
+			viewangles[PITCH] = -45.0f;
+			}
+			else
+			{
+			viewangles[PITCH] = -90.0f;
+			}
+		}
+		if (KeyState( &in_lookdown))
+		{
+			if (KeyState( &in_forward) || KeyState( &in_back))
+			{
+			viewangles[PITCH] = 45.0f;
+			}
+			else
+			{
+			viewangles[PITCH] = 90.0f;
+			}
+		}
 
 		if ( up || down )
 		{
@@ -823,16 +859,16 @@ void CInput::ComputeSideMove( CUserCmd *cmd )
 		return;
 	}
 
-	// If strafing, check left and right keys and act like moveleft and moveright keys
-	if ( in_strafe.state & 1 )
-	{
-		cmd->sidemove += cl_sidespeed.GetFloat() * KeyState (&in_right);
-		cmd->sidemove -= cl_sidespeed.GetFloat() * KeyState (&in_left);
-	}
+	//// If strafing, check left and right keys and act like moveleft and moveright keys
+	//if ( in_strafe.state & 1 )
+	//{
+	//	cmd->sidemove += cl_sidespeed.GetFloat() * KeyState (&in_right);
+	//	cmd->sidemove -= cl_sidespeed.GetFloat() * KeyState (&in_left);
+	//}
 
-	// Otherwise, check strafe keys
-	cmd->sidemove += cl_sidespeed.GetFloat() * KeyState (&in_moveright);
-	cmd->sidemove -= cl_sidespeed.GetFloat() * KeyState (&in_moveleft);
+	//// Otherwise, check strafe keys
+	//cmd->sidemove += cl_sidespeed.GetFloat() * KeyState (&in_moveright);
+	//cmd->sidemove -= cl_sidespeed.GetFloat() * KeyState (&in_moveleft);
 }
 
 /*
@@ -889,7 +925,7 @@ void CInput::ComputeForwardMove( CUserCmd *cmd )
 	if ( !(in_klook.state & 1 ) )
 	{	
 		cmd->forwardmove += cl_forwardspeed.GetFloat() * KeyState (&in_forward);
-		cmd->forwardmove -= cl_backspeed.GetFloat() * KeyState (&in_back);
+		cmd->forwardmove += cl_forwardspeed.GetFloat() * KeyState (&in_back);
 	}	
 }
 
@@ -937,15 +973,15 @@ ControllerMove
 */
 void CInput::ControllerMove( float frametime, CUserCmd *cmd )
 {
-	if ( IsPC() )
-	{
-		if ( !m_fCameraInterceptingMouse && m_fMouseActive )
-		{
-			MouseMove( cmd);
-		}
-	}
+	//if ( IsPC() )
+	//{
+	//	if ( !m_fCameraInterceptingMouse && m_fMouseActive )
+	//	{
+	//		MouseMove( cmd);
+	//	}
+	//}
 
-	JoyStickMove( frametime, cmd);
+	//JoyStickMove( frametime, cmd);
 
 	// NVNT if we have a haptic device..
 	if(haptics && haptics->HasDevice())

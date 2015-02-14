@@ -32,8 +32,8 @@ Vector GetTracerOrigin( const CEffectData &data )
 
 		// If the entity specified is a weapon being carried by this player, use the viewmodel instead
 		IClientRenderable *pRenderable = data.GetRenderable();
-		if ( !pRenderable )
-			return vecStart;
+		//if ( !pRenderable )
+		//	return vecStart;
 
 		C_BaseEntity *pEnt = data.GetEntity();
 

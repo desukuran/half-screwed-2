@@ -38,6 +38,8 @@
 
 #endif
 
+#include "vprof.h"
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -164,7 +166,19 @@ void CBaseCombatWeapon::GiveDefaultAmmo( void )
 //-----------------------------------------------------------------------------
 void CBaseCombatWeapon::Spawn( void )
 {
+	bool bPrecacheAllowed = CBaseEntity::IsPrecacheAllowed();
+	if (!bPrecacheAllowed)
+	{
+		tmEnter( TELEMETRY_LEVEL1, TMZF_NONE, "LateWeaponPrecache" );
+	}
+
 	Precache();
+
+	if (!bPrecacheAllowed)
+	{
+		tmLeave( TELEMETRY_LEVEL1 );
+	}
+
 
 	BaseClass::Spawn();
 
@@ -313,7 +327,7 @@ const FileWeaponInfo_t &CBaseCombatWeapon::GetWpnData( void ) const
 //-----------------------------------------------------------------------------
 const char *CBaseCombatWeapon::GetViewModel( int /*viewmodelindex = 0 -- this is ignored in the base class here*/ ) const
 {
-	return GetWpnData().szViewModel;
+	return GetWpnData().szWorldModel;
 }
 
 //-----------------------------------------------------------------------------
@@ -1008,20 +1022,18 @@ void CBaseCombatWeapon::Equip( CBaseCombatCharacter *pOwner )
 void CBaseCombatWeapon::SetActivity( Activity act, float duration ) 
 { 
 	//Adrian: Oh man...
-#if !defined( CLIENT_DLL ) && (defined( HL2MP ) || defined( PORTAL ))
-	SetModel( GetWorldModel() );
-#endif
+	if ( GetOwner()->IsPlayer() )
+		SetModel( GetWorldModel() );
 	
 	int sequence = SelectWeightedSequence( act ); 
 	
 	// FORCE IDLE on sequences we don't have (which should be many)
 	if ( sequence == ACTIVITY_NOT_AVAILABLE )
-		sequence = SelectWeightedSequence( ACT_VM_IDLE );
+		sequence = SelectWeightedSequence( ACT_HL2MP_IDLE );
 
 	//Adrian: Oh man again...
-#if !defined( CLIENT_DLL ) && (defined( HL2MP ) || defined( PORTAL ))
-	SetModel( GetViewModel() );
-#endif
+	if ( GetOwner()->IsPlayer() )
+		SetModel( GetViewModel() );
 
 	if ( sequence != ACTIVITY_NOT_AVAILABLE )
 	{
@@ -1643,6 +1655,11 @@ void CBaseCombatWeapon::ItemPreFrame( void )
 #endif
 }
 
+bool CBaseCombatWeapon::CanPerformSecondaryAttack() const
+{
+	return m_flNextSecondaryAttack <= gpGlobals->curtime;
+}
+
 //====================================================================================
 // WEAPON BEHAVIOUR
 //====================================================================================
@@ -1667,7 +1684,7 @@ void CBaseCombatWeapon::ItemPostFrame( void )
 	bool bFired = false;
 
 	// Secondary attack has priority
-	if ((pOwner->m_nButtons & IN_ATTACK2) && (m_flNextSecondaryAttack <= gpGlobals->curtime))
+	if ((pOwner->m_nButtons & IN_ATTACK2) && CanPerformSecondaryAttack() )
 	{
 		if (UsesSecondaryAmmo() && pOwner->GetAmmoCount(m_iSecondaryAmmoType)<=0 )
 		{

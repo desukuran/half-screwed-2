@@ -518,7 +518,7 @@ void CGameMovement::DiffPrint( char const *fmt, ... )
 #endif // !PREDICTION_ERROR_CHECK_LEVEL
 
 #ifndef _XBOX
-void COM_Log( char *pszFile, const char *fmt, ...)
+void COM_Log( const char *pszFile, const char *fmt, ...)
 {
 	va_list		argptr;
 	char		string[1024];
@@ -2434,16 +2434,16 @@ bool CGameMovement::CheckJumpButton( void )
 	{
 #if defined(HL2_DLL) || defined(HL2_CLIENT_DLL)
 		Assert( GetCurrentGravity() == 600.0f );
-		flMul = 160.0f;	// approx. 21 units.
+		flMul = 3 * 160.0f; // approx. 21 units.
 #else
 		Assert( GetCurrentGravity() == 800.0f );
-		flMul = 268.3281572999747f;
+		flMul = 3 * 268.3281572999747f;
 #endif
 
 	}
 	else
 	{
-		flMul = sqrt(2 * GetCurrentGravity() * GAMEMOVEMENT_JUMP_HEIGHT);
+		flMul = sqrt(2 * 3 * GetCurrentGravity() * GAMEMOVEMENT_JUMP_HEIGHT);
 	}
 
 	// Acclerate upward

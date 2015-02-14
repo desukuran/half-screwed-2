@@ -478,6 +478,8 @@ int C_BaseCombatWeapon::DrawModel( int flags )
 	// check if local player chases owner of this weapon in first person
 	C_BasePlayer *localplayer = C_BasePlayer::GetLocalPlayer();
 
+	localplayer->m_Local.m_iHideHUD |= HIDEHUD_CROSSHAIR;
+
 	if ( localplayer && localplayer->IsObserver() && GetOwner() )
 	{
 		// don't draw weapon if chasing this guy as spectator

@@ -30,14 +30,14 @@ void CAM_ToFirstPerson(void);
 
 void ToggleThirdPerson( bool bValue )
 {
-	if ( bValue == true )
-	{
+	//if ( bValue == true )
+	//{
 		CAM_ToThirdPerson();
-	}
-	else
-	{
-		CAM_ToFirstPerson();
-	}
+	//}
+	//else
+	//{
+	//	CAM_ToFirstPerson();
+	//}
 }
 
 void ThirdPersonChange( IConVar *pConVar, const char *pOldValue, float flOldValue )
