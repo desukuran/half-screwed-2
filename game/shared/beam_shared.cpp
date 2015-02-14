@@ -1014,8 +1014,8 @@ void CBeam::OnDataChanged( DataUpdateType_t updateType )
 		C_BaseEntity *pEnt = m_hAttachEntity[i].Get();
 		if ( pEnt )
 		{
-			C_BaseCombatWeapon *pWpn = dynamic_cast<C_BaseCombatWeapon *>(pEnt);
-			if ( pWpn && pWpn->ShouldDrawUsingViewModel() )
+			//C_BaseCombatWeapon *pWpn = dynamic_cast<C_BaseCombatWeapon *>(pEnt);
+			/*if ( pWpn && pWpn->ShouldDrawUsingViewModel() )
 			{
 				C_BasePlayer *player = ToBasePlayer( pWpn->GetOwner() );
 
@@ -1026,7 +1026,7 @@ void CBeam::OnDataChanged( DataUpdateType_t updateType )
 					// Get the viewmodel and use it instead
 					m_hAttachEntity.Set( i, pViewModel );
 				}
-			}
+			}*/
 		}
 	}
 

@@ -84,8 +84,8 @@ extern ConVar thirdperson_platformer;
 static ConVar m_filter( "m_filter","0", FCVAR_ARCHIVE, "Mouse filtering (set this to 1 to average the mouse over 2 frames)." );
 ConVar sensitivity( "sensitivity","3", FCVAR_ARCHIVE, "Mouse sensitivity.", true, 0.0001f, true, 10000000 );
 
-static ConVar m_side( "m_side","0.8", FCVAR_ARCHIVE, "Mouse side factor." );
-static ConVar m_yaw( "m_yaw","0.022", FCVAR_ARCHIVE, "Mouse yaw factor." );
+static ConVar m_side( "m_side","0.0", FCVAR_ARCHIVE, "Mouse side factor." );
+static ConVar m_yaw( "m_yaw","0.0", FCVAR_ARCHIVE, "Mouse yaw factor." );
 static ConVar m_forward( "m_forward","1", FCVAR_ARCHIVE, "Mouse forward factor." );
 
 static ConVar m_customaccel( "m_customaccel", "0", FCVAR_ARCHIVE, "Custom mouse acceleration:"
@@ -105,9 +105,9 @@ static ConVar m_mouseaccel2( "m_mouseaccel2", "0", FCVAR_ARCHIVE, "Windows mouse
 static ConVar m_rawinput( "m_rawinput", "0", FCVAR_ARCHIVE, "Use Raw Input for mouse input.");
 
 #if DEBUG
-ConVar cl_mouselook( "cl_mouselook", "1", FCVAR_ARCHIVE, "Set to 1 to use mouse for look, 0 for keyboard look." );
+ConVar cl_mouselook( "cl_mouselook", "0", FCVAR_ARCHIVE, "Set to 1 to use mouse for look, 0 for keyboard look." );
 #else
-ConVar cl_mouselook( "cl_mouselook", "1", FCVAR_ARCHIVE | FCVAR_NOT_CONNECTED, "Set to 1 to use mouse for look, 0 for keyboard look. Cannot be set while connected to a server." );
+ConVar cl_mouselook( "cl_mouselook", "0", FCVAR_ARCHIVE | FCVAR_NOT_CONNECTED, "Set to 1 to use mouse for look, 0 for keyboard look. Cannot be set while connected to a server." );
 #endif
 
 ConVar cl_mouseenable( "cl_mouseenable", "1" );

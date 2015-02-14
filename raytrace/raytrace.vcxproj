@@ -19,11 +19,13 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <TargetName>raytrace</TargetName>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <TargetName>raytrace</TargetName>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -52,18 +54,29 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>if EXIST ..\lib\public\.\$(TargetName).lib ( for /f &quot;delims=&quot; %%A in (&apos;attrib &quot;..\lib\public\.\$(TargetName).lib&quot;&apos;) do set valveTmpIsReadOnly=&quot;%%A&quot;&#x0D;&#x0A;) else ( if not EXIST ..\lib\public\. mkdir ..\lib\public\. )&#x0D;&#x0A;set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%&#x0D;&#x0A;if &quot;%valveTmpIsReadOnlyLetter%&quot;==&quot;R&quot; (&#x0D;&#x0A;    attrib -r ..\lib\public\.\$(TargetName).lib&#x0D;&#x0A;    ..\devtools\bin\gnu\touch.exe -d &quot;1999-01-01&quot; ..\lib\public\.\$(TargetName).lib&#x0D;&#x0A;    attrib +r ..\lib\public\.\$(TargetName).lib&#x0D;&#x0A;)&#x0D;&#x0A;if exist ..\devtools\bin\vpc.exe ..\devtools\bin\vpc.exe -crc2 raytrace.vcxproj&#x0D;&#x0A;if ERRORLEVEL 1 exit 1&#x0D;&#x0A;</Command>
+      <Command>if EXIST ..\lib\public\.\$(TargetName).lib ( for /f "delims=" %%A in ('attrib "..\lib\public\.\$(TargetName).lib"') do set valveTmpIsReadOnly="%%A"
+) else ( if not EXIST ..\lib\public\. mkdir ..\lib\public\. )
+set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%
+if "%valveTmpIsReadOnlyLetter%"=="R" (
+    attrib -r ..\lib\public\.\$(TargetName).lib
+    ..\devtools\bin\gnu\touch.exe -d "1999-01-01" ..\lib\public\.\$(TargetName).lib
+    attrib +r ..\lib\public\.\$(TargetName).lib
+)
+if exist "..\devtools\bin\vpc.exe" "..\devtools\bin\vpc.exe" -crc2 "raytrace.vcxproj"
+if ERRORLEVEL 1 exit /b 1
+</Command>
     </PreBuildEvent>
     <ClCompile>
+      <AdditionalOptions> /Gw /Zc:inline</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\common;..\public;..\public\tier0;..\public\tier1;..\utils\common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VPC;RAD_TELEMETRY_DISABLED;_HAS_ITERATOR_DEBUGGING=0;WIN32;_WIN32;_DEBUG;DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;LIBNAME=raytrace;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VPCGAMECAPS=HL2MP;PROJECTDIR=C:\Users\Big Boss\Desktop\src_dll_hscrewed2\src_halfscrewed2\raytrace;_DLL_EXT=.dll;SOURCE1=1;VPCGAME=hl2mp</PreprocessorDefinitions>
+      <PreprocessorDefinitions>VPC;RAD_TELEMETRY_DISABLED;_HAS_ITERATOR_DEBUGGING=0;WIN32;_WIN32;_DEBUG;DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;%(PreprocessorDefinitions);COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;LIBNAME=raytrace;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;_EXTERNAL_DLL_EXT=.dll;VPCGAMECAPS=HL2MP;PROJECTDIR=C:\HS2\src_antfarm\trunk\mp\src\raytrace;_DLL_EXT=.dll;VPCGAME=hl2mp;SOURCE1=1</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -78,9 +91,12 @@
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <BrowseInformation>false</BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <UseFullPaths>true</UseFullPaths>
+      <DisableSpecificWarnings>;4316</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformationFile>$(IntDir)/</BrowseInformationFile>
       <ErrorReporting>Prompt</ErrorReporting>
     </ClCompile>
@@ -106,22 +122,32 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>if EXIST ..\lib\public\.\$(TargetName).lib ( for /f &quot;delims=&quot; %%A in (&apos;attrib &quot;..\lib\public\.\$(TargetName).lib&quot;&apos;) do set valveTmpIsReadOnly=&quot;%%A&quot;&#x0D;&#x0A;) else ( if not EXIST ..\lib\public\. mkdir ..\lib\public\. )&#x0D;&#x0A;set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%&#x0D;&#x0A;if &quot;%valveTmpIsReadOnlyLetter%&quot;==&quot;R&quot; (&#x0D;&#x0A;    attrib -r ..\lib\public\.\$(TargetName).lib&#x0D;&#x0A;    ..\devtools\bin\gnu\touch.exe -d &quot;1999-01-01&quot; ..\lib\public\.\$(TargetName).lib&#x0D;&#x0A;    attrib +r ..\lib\public\.\$(TargetName).lib&#x0D;&#x0A;)&#x0D;&#x0A;if exist ..\devtools\bin\vpc.exe ..\devtools\bin\vpc.exe -crc2 raytrace.vcxproj&#x0D;&#x0A;if ERRORLEVEL 1 exit 1&#x0D;&#x0A;</Command>
+      <Command>if EXIST ..\lib\public\.\$(TargetName).lib ( for /f "delims=" %%A in ('attrib "..\lib\public\.\$(TargetName).lib"') do set valveTmpIsReadOnly="%%A"
+) else ( if not EXIST ..\lib\public\. mkdir ..\lib\public\. )
+set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%
+if "%valveTmpIsReadOnlyLetter%"=="R" (
+    attrib -r ..\lib\public\.\$(TargetName).lib
+    ..\devtools\bin\gnu\touch.exe -d "1999-01-01" ..\lib\public\.\$(TargetName).lib
+    attrib +r ..\lib\public\.\$(TargetName).lib
+)
+if exist "..\devtools\bin\vpc.exe" "..\devtools\bin\vpc.exe" -crc2 "raytrace.vcxproj"
+if ERRORLEVEL 1 exit /b 1
+</Command>
     </PreBuildEvent>
     <ClCompile>
-      <AdditionalOptions>/MP /d2Zi+</AdditionalOptions>
+      <AdditionalOptions> /Zo /Gw /Zc:inline</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\common;..\public;..\public\tier0;..\public\tier1;..\utils\common</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VPC;RAD_TELEMETRY_DISABLED;WIN32;_WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;LIBNAME=raytrace;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VPCGAMECAPS=HL2MP;PROJECTDIR=C:\Users\Big Boss\Desktop\src_dll_hscrewed2\src_halfscrewed2\raytrace;_DLL_EXT=.dll;SOURCE1=1;VPCGAME=hl2mp</PreprocessorDefinitions>
+      <PreprocessorDefinitions>VPC;RAD_TELEMETRY_DISABLED;WIN32;_WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;%(PreprocessorDefinitions);COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;LIBNAME=raytrace;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;_EXTERNAL_DLL_EXT=.dll;VPCGAMECAPS=HL2MP;PROJECTDIR=C:\HS2\src_antfarm\trunk\mp\src\raytrace;_DLL_EXT=.dll;VPCGAME=hl2mp;SOURCE1=1</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -136,9 +162,12 @@
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <BrowseInformation>false</BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <UseFullPaths>true</UseFullPaths>
+      <DisableSpecificWarnings>;4316</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BrowseInformationFile>$(IntDir)/</BrowseInformationFile>
       <ErrorReporting>Prompt</ErrorReporting>
     </ClCompile>
@@ -176,11 +205,15 @@
   <ItemGroup>
     <CustomBuild Include="raytrace.vpc">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Running VPC CRC Check - raytrace.vpc</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">if exist $SRCDIR\devtools\bin\vpc.exe $SRCDIR\devtools\bin\vpc.exe -crc2 raytrace.vcxproj&#x0D;&#x0A;if ERRORLEVEL 1 exit 1&#x0D;&#x0A;echo crc_complete &gt; C:\Users\Big Boss\Desktop\src_dll_hscrewed2\src_halfscrewed2\raytrace\raytrace.vpc.sentinel</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Big Boss\Desktop\src_dll_hscrewed2\src_halfscrewed2\raytrace\raytrace.vpc.sentinel</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">if exist "..\devtools\bin\vpc.exe" "..\devtools\bin\vpc.exe" -crc2 "raytrace.vcxproj"
+if ERRORLEVEL 1 exit /b 1
+echo crc_complete &gt; C:\HS2\src_antfarm\trunk\mp\src\raytrace\raytrace.vpc.sentinel</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\HS2\src_antfarm\trunk\mp\src\raytrace\raytrace.vpc.sentinel</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Running VPC CRC Check - raytrace.vpc</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">if exist $SRCDIR\devtools\bin\vpc.exe $SRCDIR\devtools\bin\vpc.exe -crc2 raytrace.vcxproj&#x0D;&#x0A;if ERRORLEVEL 1 exit 1&#x0D;&#x0A;echo crc_complete &gt; C:\Users\Big Boss\Desktop\src_dll_hscrewed2\src_halfscrewed2\raytrace\raytrace.vpc.sentinel</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Big Boss\Desktop\src_dll_hscrewed2\src_halfscrewed2\raytrace\raytrace.vpc.sentinel</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">if exist "..\devtools\bin\vpc.exe" "..\devtools\bin\vpc.exe" -crc2 "raytrace.vcxproj"
+if ERRORLEVEL 1 exit /b 1
+echo crc_complete &gt; C:\HS2\src_antfarm\trunk\mp\src\raytrace\raytrace.vpc.sentinel</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\HS2\src_antfarm\trunk\mp\src\raytrace\raytrace.vpc.sentinel</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
