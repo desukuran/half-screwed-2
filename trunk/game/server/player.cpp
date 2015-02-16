@@ -5070,6 +5070,8 @@ void CBasePlayer::Precache( void )
 	PrecacheScriptSound( "Player.DrownContinue" );
 	PrecacheScriptSound( "Player.Wade" );
 	PrecacheScriptSound( "Player.AmbientUnderWater" );
+	PrecacheScriptSound( "Player.JumpSFX");
+
 	enginesound->PrecacheSentenceGroup( "HEV" );
 
 	// These are always needed

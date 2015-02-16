@@ -2419,7 +2419,8 @@ bool CGameMovement::CheckJumpButton( void )
 	// In the air now.
     SetGroundEntity( NULL );
 	
-	player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true );
+	//player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true );
+	player->EmitSound("Player.JumpSFX");
 	
 	MoveHelper()->PlayerSetAnimation( PLAYER_JUMP );
 
