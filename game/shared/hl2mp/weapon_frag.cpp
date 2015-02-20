@@ -38,6 +38,8 @@
 #define CWeaponFrag C_WeaponFrag
 #endif
 
+ConVar chat_rapid_nade( "cheat_nade_oraora", "0", FCVAR_CHEAT | FCVAR_REPLICATED );
+
 //-----------------------------------------------------------------------------
 // Fragmentation grenades
 //-----------------------------------------------------------------------------
@@ -258,7 +260,12 @@ bool CWeaponFrag::Reload( void )
 //-----------------------------------------------------------------------------
 void CWeaponFrag::SecondaryAttack( void )
 {
-	if ( m_bRedraw )
+	Vector vecForce = Vector(931, 92, -131);
+
+	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
+	pPlayer->ApplyAbsVelocityImpulse( vecForce );
+
+	/*if ( m_bRedraw )
 		return;
 
 	if ( !HasPrimaryAmmo() )
@@ -286,7 +293,7 @@ void CWeaponFrag::SecondaryAttack( void )
 	if ( !HasPrimaryAmmo() )
 	{
 		pPlayer->SwitchToNextBestWeapon( this );
-	}
+	}*/
 }
 
 //-----------------------------------------------------------------------------
@@ -294,10 +301,17 @@ void CWeaponFrag::SecondaryAttack( void )
 //-----------------------------------------------------------------------------
 void CWeaponFrag::PrimaryAttack( void )
 {
-	if ( m_bRedraw )
+	CBasePlayer *pOwner  = ToBasePlayer( GetOwner() );
+
+	ThrowGrenade( pOwner );
+
+	if (!chat_rapid_nade.GetBool())
+	m_flNextPrimaryAttack	= gpGlobals->curtime + 1;
+	//DecrementAmmo( pOwner );
+	/*if ( m_bRedraw )
 		return;
 
-	CBaseCombatCharacter *pOwner  = GetOwner();
+	
 	
 	if ( pOwner == NULL )
 	{ 
@@ -322,7 +336,7 @@ void CWeaponFrag::PrimaryAttack( void )
 	if ( !HasPrimaryAmmo() )
 	{
 		pPlayer->SwitchToNextBestWeapon( this );
-	}
+	}*/
 }
 
 //-----------------------------------------------------------------------------

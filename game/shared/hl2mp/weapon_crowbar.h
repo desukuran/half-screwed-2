@@ -44,6 +44,8 @@ public:
 
 	CWeaponCrowbar();
 
+	void	Precache( void );
+
 	float		GetRange( void );
 	float		GetFireRate( void );
 

@@ -70,6 +70,12 @@ CWeaponCrowbar::CWeaponCrowbar( void )
 {
 }
 
+void CWeaponCrowbar::Precache( void )
+{
+	PrecacheScriptSound("Weapon.SwordBeam");
+	return CBaseHL2MPBludgeonWeapon::Precache();
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: Get the damage amount for the animation we're doing
 // Input  : hitActivity - currently played activity
@@ -205,11 +211,11 @@ int CWeaponCrowbar::WeaponMeleeAttack1Condition( float flDot, float flDist )
 
 void CWeaponCrowbar::PrimaryAttack()
 {
-	//CBasePlayer *pPlayer  = ToBasePlayer( GetOwner() );
+	CBasePlayer *pPlayer  = ToBasePlayer( GetOwner() );
 
 		//HSTODO: Make the beam.
-		//if (pPlayer->GetHealth() == 100)
-			//EmitSound("Weapon.SwordBeam");
+		if (pPlayer->GetHealth() == 100)
+			EmitSound("Weapon.SwordBeam");
 
 	return CBaseHL2MPBludgeonWeapon::PrimaryAttack();
 }
