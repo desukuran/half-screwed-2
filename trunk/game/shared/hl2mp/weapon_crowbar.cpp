@@ -203,7 +203,16 @@ int CWeaponCrowbar::WeaponMeleeAttack1Condition( float flDot, float flDist )
 
 #endif
 
+void CWeaponCrowbar::PrimaryAttack()
+{
+	//CBasePlayer *pPlayer  = ToBasePlayer( GetOwner() );
 
+		//HSTODO: Make the beam.
+		//if (pPlayer->GetHealth() == 100)
+			//EmitSound("Weapon.SwordBeam");
+
+	return CBaseHL2MPBludgeonWeapon::PrimaryAttack();
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: 

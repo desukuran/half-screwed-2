@@ -3956,6 +3956,8 @@ void CGameMovement::CheckFalling( void )
 		}
 	}
 
+	//player->m_nTimesJumped = 0;
+
 	// let any subclasses know that the player has landed and how hard
 	OnLand(player->m_Local.m_flFallVelocity);
 	
