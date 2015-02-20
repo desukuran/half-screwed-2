@@ -57,7 +57,7 @@ CThirdPersonManager::CThirdPersonManager( void )
 
 void CThirdPersonManager::Init( void )
 {
-	m_bOverrideThirdPerson = false;
+	m_bOverrideThirdPerson = true; //TODOHS: Test
 	m_bForced = false;
 	m_flUpFraction = 0.0f;
 	m_flFraction = 1.0f;
@@ -80,24 +80,6 @@ void CThirdPersonManager::Update( void )
 	if ( !sv_cheats )
 	{
 		sv_cheats = cvar->FindVar( "sv_cheats" );
-	}
-
-	// If cheats have been disabled, pull us back out of third-person view.
-	if ( sv_cheats && !sv_cheats->GetBool() && GameRules() && GameRules()->AllowThirdPersonCamera() == false )
-	{
-		if ( (bool)input->CAM_IsThirdPerson() == true )
-		{
-			input->CAM_ToFirstPerson();
-		}
-		return;
-	}
-
-	if ( IsOverridingThirdPerson() == false )
-	{
-		if ( (bool)input->CAM_IsThirdPerson() != ( cl_thirdperson.GetBool() || m_bForced ) && GameRules() && GameRules()->AllowThirdPersonCamera() == true )
-		{
-			ToggleThirdPerson( m_bForced || cl_thirdperson.GetBool() );
-		}
 	}
 #endif
 
@@ -223,6 +205,7 @@ void CThirdPersonManager::PositionCamera( CBasePlayer *pPlayer, QAngle angles )
 
 bool CThirdPersonManager::WantToUseGameThirdPerson( void )
 {
+	return true;
 	return cl_thirdperson.GetBool() && GameRules() && GameRules()->AllowThirdPersonCamera() && IsOverridingThirdPerson() == false;
 }
 

@@ -24,6 +24,8 @@
 #define CWeaponCrowbar C_WeaponCrowbar
 #endif
 
+
+
 //-----------------------------------------------------------------------------
 // CWeaponCrowbar
 //-----------------------------------------------------------------------------
@@ -47,6 +49,7 @@ public:
 
 	void		AddViewKick( void );
 	float		GetDamageForActivity( Activity hitActivity );
+	void		PrimaryAttack( void );
 	void		SecondaryAttack( void )	{	return;	}
 
 	void		Drop( const Vector &vecVelocity );

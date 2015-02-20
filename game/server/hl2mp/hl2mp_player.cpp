@@ -81,6 +81,7 @@ const char *g_ppszRandomCitizenModels[] =
 
 const char *g_ppszRandomCombineModels[] =
 {
+	"models/player/big_boss.mdl",
 	"models/combine_soldier.mdl",
 	"models/combine_soldier_prisonguard.mdl",
 	"models/combine_super_soldier.mdl",
@@ -155,6 +156,7 @@ void CHL2MP_Player::Precache( void )
 	PrecacheScriptSound( "NPC_MetroPolice.Die" );
 	PrecacheScriptSound( "NPC_CombineS.Die" );
 	PrecacheScriptSound( "NPC_Citizen.die" );
+	PrecacheScriptSound( "Player.PickUpItem" );
 }
 
 void CHL2MP_Player::GiveAllItems( void )
@@ -335,7 +337,7 @@ void CHL2MP_Player::Spawn(void)
 
 void CHL2MP_Player::PickupObject( CBaseEntity *pObject, bool bLimitMassAndSize )
 {
-	
+	EmitSound("Player.PickUpItem");
 }
 
 bool CHL2MP_Player::ValidatePlayerModel( const char *pModel )

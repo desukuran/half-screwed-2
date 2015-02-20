@@ -38,6 +38,10 @@ ConVar sv_motd_unload_on_dismissal( "sv_motd_unload_on_dismissal", "0", 0, "If e
 extern CBaseEntity*	FindPickerEntityClass( CBasePlayer *pPlayer, char *classname );
 extern bool			g_fGameOver;
 
+//extern const ConVar *mp_gameplay;
+
+ConVar mp_gameplay( "mp_gameplay", "0", 0, "Sets gameplay. (eg: 0 = DM, 1 = Round based.)" );
+
 void FinishClientPutInServer( CHL2MP_Player *pPlayer )
 {
 	pPlayer->InitialSpawn();
@@ -195,7 +199,12 @@ void GameStartFrame( void )
 //=========================================================
 void InstallGameRules()
 {
-	// vanilla deathmatch
-	CreateGameRulesObject( "CHL2MPRules" );
+	bool gameplay = mp_gameplay.GetBool(); //TODO: make this an int.
+		
+	if (gameplay == false)
+		CreateGameRulesObject( "CHL2MPRules" );
+	else if (gameplay == true)
+		CreateGameRulesObject( "CTeamplayRoundBasedRules" );
+	
 }
 
