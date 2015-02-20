@@ -417,6 +417,7 @@ private:
 	void	SetSkin( int skinNum );
 	void	CheckZoomToggle( void );
 	void	FireBolt( void );
+	void	FireExplosiveBolt( void );
 	void	ToggleZoom( void );
 	
 	// Various states for the crossbow's charger
@@ -551,6 +552,7 @@ void CWeaponCrossbow::PrimaryAttack( void )
 //-----------------------------------------------------------------------------
 void CWeaponCrossbow::SecondaryAttack( void )
 {
+	FireExplosiveBolt();
 	//NOTENOTE: The zooming is handled by the post/busy frames
 }
 
@@ -588,7 +590,7 @@ void CWeaponCrossbow::CheckZoomToggle( void )
 void CWeaponCrossbow::ItemBusyFrame( void )
 {
 	// Allow zoom toggling even when we're reloading
-	CheckZoomToggle();
+	//CheckZoomToggle();
 }
 
 //-----------------------------------------------------------------------------
@@ -597,7 +599,7 @@ void CWeaponCrossbow::ItemBusyFrame( void )
 void CWeaponCrossbow::ItemPostFrame( void )
 {
 	// Allow zoom toggling
-	CheckZoomToggle();
+	//CheckZoomToggle();
 
 	if ( m_bMustReload && HasWeaponIdleTimeElapsed() )
 	{
@@ -605,6 +607,72 @@ void CWeaponCrossbow::ItemPostFrame( void )
 	}
 
 	BaseClass::ItemPostFrame();
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponCrossbow::FireExplosiveBolt( void )
+{
+	if ( m_iClip1 <= 0 )
+	{
+		if ( !m_bFireOnEmpty )
+		{
+			Reload();
+		}
+		else
+		{
+			WeaponSound( EMPTY );
+			m_flNextPrimaryAttack = 0.15;
+		}
+
+		return;
+	}
+
+	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
+	
+	if ( pOwner == NULL )
+		return;
+
+#ifndef CLIENT_DLL
+	Vector vecAiming	= pOwner->GetAutoaimVector( 0 );	
+	Vector vecSrc		= pOwner->Weapon_ShootPosition();
+
+	QAngle angAiming;
+	VectorAngles( vecAiming, angAiming );
+
+	CCrossbowBolt *pBolt = CCrossbowBolt::BoltCreate( vecSrc, angAiming, GetHL2MPWpnData().m_iPlayerDamage, pOwner );
+
+	if ( pOwner->GetWaterLevel() == 3 )
+	{
+		pBolt->SetAbsVelocity( vecAiming * BOLT_WATER_VELOCITY );
+	}
+	else
+	{
+		pBolt->SetAbsVelocity( vecAiming * BOLT_AIR_VELOCITY );
+	}
+
+#endif
+
+	m_iClip1--;
+
+	pOwner->ViewPunch( QAngle( -2, 0, 0 ) );
+
+	WeaponSound( SINGLE );
+	WeaponSound( SPECIAL2 );
+
+	SendWeaponAnim( ACT_VM_PRIMARYATTACK );
+
+	if ( !m_iClip1 && pOwner->GetAmmoCount( m_iPrimaryAmmoType ) <= 0 )
+	{
+		// HEV suit - indicate out of ammo condition
+		pOwner->SetSuitUpdate("!HEV_AMO0", FALSE, 0);
+	}
+
+	m_flNextPrimaryAttack = m_flNextSecondaryAttack	= gpGlobals->curtime + 0.75;
+
+	DoLoadEffect();
+	SetChargerState( CHARGER_STATE_DISCHARGE );
 }
 
 //-----------------------------------------------------------------------------
