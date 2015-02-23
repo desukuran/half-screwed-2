@@ -306,8 +306,10 @@ void CWeaponFrag::PrimaryAttack( void )
 	ThrowGrenade( pOwner );
 
 	if (!chat_rapid_nade.GetBool())
-	m_flNextPrimaryAttack	= gpGlobals->curtime + 1;
-	//DecrementAmmo( pOwner );
+	{
+		m_flNextPrimaryAttack	= gpGlobals->curtime + 1;
+		DecrementAmmo( pOwner );
+	}
 	/*if ( m_bRedraw )
 		return;
 
