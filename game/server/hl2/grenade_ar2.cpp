@@ -105,7 +105,7 @@ void CGrenadeAR2::Spawn( void )
 			m_hSmokeTrail->m_StartColor.Init(0.1f, 0.1f, 0.1f);
 			m_hSmokeTrail->m_EndColor.Init(0,0,0);
 			m_hSmokeTrail->m_StartSize = 12;
-			m_hSmokeTrail->m_EndSize = m_hSmokeTrail->m_StartSize * 4;
+			m_hSmokeTrail->m_EndSize = m_hSmokeTrail->m_StartSize * 40;
 			m_hSmokeTrail->m_SpawnRadius = 4;
 			m_hSmokeTrail->m_MinSpeed = 4;
 			m_hSmokeTrail->m_MaxSpeed = 24;

@@ -199,12 +199,14 @@ void GameStartFrame( void )
 //=========================================================
 void InstallGameRules()
 {
-	bool gameplay = mp_gameplay.GetBool(); //TODO: make this an int.
+	int gameplay = mp_gameplay.GetInt();
 		
-	if (gameplay == false)
-		CreateGameRulesObject( "CHL2MPRules" );
-	else if (gameplay == true)
-		CreateGameRulesObject( "CTeamplayRoundBasedRules" );
+	switch(gameplay)
+	{
+		case 0: CreateGameRulesObject( "CHL2MPRules" ); break;
+		case 1: CreateGameRulesObject( "CTeamplayRoundBasedRules" ); break;
+		case 2: CreateGameRulesObject( "CMultiplayRules" ); break;
+	}
 	
 }
 

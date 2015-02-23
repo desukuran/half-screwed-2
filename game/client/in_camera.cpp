@@ -26,12 +26,12 @@ static ConVar cam_command( "cam_command", "0", FCVAR_ARCHIVE );	 // tells camera
 static ConVar cam_snapto( "cam_snapto", "1", FCVAR_ARCHIVE );	 // snap to thirdperson view
 static ConVar cam_ideallag( "cam_ideallag", "4.0", FCVAR_ARCHIVE| FCVAR_CHEAT, "Amount of lag used when matching offset to ideal angles in thirdperson view" );
 static ConVar cam_idealdelta( "cam_idealdelta", "4.0", FCVAR_ARCHIVE| FCVAR_CHEAT, "Controls the speed when matching offset to ideal angles in thirdperson view" );
-ConVar cam_idealyaw( "cam_idealyaw", "0", FCVAR_ARCHIVE/*| FCVAR_CHEAT*/ );	 // thirdperson yaw
-ConVar cam_idealpitch( "cam_idealpitch", "0", FCVAR_ARCHIVE /*| FCVAR_CHEAT*/  );	 // thirperson pitch
+ConVar cam_idealyaw( "cam_idealyaw", "0", FCVAR_ARCHIVE| FCVAR_CHEAT );	 // thirdperson yaw
+ConVar cam_idealpitch( "cam_idealpitch", "0", FCVAR_ARCHIVE | FCVAR_CHEAT  );	 // thirperson pitch
 ConVar cam_idealdist( "cam_idealdist", "512", FCVAR_ARCHIVE );	 // thirdperson distance
-ConVar cam_idealdistright( "cam_idealdistright", "0", FCVAR_ARCHIVE /*| FCVAR_CHEAT*/ );	 // thirdperson distance
-ConVar cam_idealdistup( "cam_idealdistup", "0", FCVAR_ARCHIVE /*| FCVAR_CHEAT*/ );	 // thirdperson distance
-static ConVar cam_collision( "cam_collision", "0", FCVAR_ARCHIVE /*| FCVAR_CHEAT*/, "When in thirdperson and cam_collision is set to 1, an attempt is made to keep the camera from passing though walls." );
+ConVar cam_idealdistright( "cam_idealdistright", "0", FCVAR_ARCHIVE | FCVAR_CHEAT );	 // thirdperson distance
+ConVar cam_idealdistup( "cam_idealdistup", "0", FCVAR_ARCHIVE | FCVAR_CHEAT );	 // thirdperson distance
+//static ConVar cam_collision( "cam_collision", "0", FCVAR_ARCHIVE | FCVAR_CHEAT, "When in thirdperson and cam_collision is set to 1, an attempt is made to keep the camera from passing though walls." );
 static ConVar cam_showangles( "cam_showangles", "0", FCVAR_CHEAT, "When in thirdperson, print viewangles/idealangles/cameraoffsets to the console." );
 static ConVar c_maxpitch( "c_maxpitch", "90", FCVAR_ARCHIVE| FCVAR_CHEAT );
 static ConVar c_minpitch( "c_minpitch", "0", FCVAR_ARCHIVE| FCVAR_CHEAT );
@@ -544,7 +544,7 @@ void CInput::CAM_Think( void )
 	}
 
 	// move the camera closer to the player if it hit something
-	if ( cam_collision.GetInt() )
+	if ( 1 )
 	{
 		QAngle desiredCamAngles = QAngle( camOffset[ PITCH ], camOffset[ YAW ], camOffset[ DIST ] );
 

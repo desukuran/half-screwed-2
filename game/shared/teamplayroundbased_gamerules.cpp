@@ -64,6 +64,8 @@ extern IReplaySystem *g_pReplay;
 extern ConVar spec_freeze_time;
 extern ConVar spec_freeze_traveltime;
 
+REGISTER_GAMERULES_CLASS( CTeamplayRoundBasedRules );
+
 #ifdef CLIENT_DLL
 void RecvProxy_TeamplayRoundState( const CRecvProxyData *pData, void *pStruct, void *pOut )
 {

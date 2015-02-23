@@ -170,15 +170,15 @@ void CThirdPersonManager::PositionCamera( CBasePlayer *pPlayer, QAngle angles )
 		m_flTargetUpFraction = 1.0f;
 
 		//If we're getting closer to a wall snap the fraction right away.
-		if ( m_flTargetFraction < m_flFraction )
+		/*if ( m_flTargetFraction < m_flFraction )
 		{
 			m_flFraction = m_flTargetFraction;
 			m_flLerpTime = gpGlobals->curtime;
-		}
+		}*/
 	
 
 		// move the camera closer if it hit something
-		if( trace.fraction < 1.0  )
+		/*if( trace.fraction < 1.0  )
 		{
 			m_vecCameraOffset[ DIST ] *= trace.fraction;
 
@@ -199,14 +199,14 @@ void CThirdPersonManager::PositionCamera( CBasePlayer *pPlayer, QAngle angles )
 					m_flUpLerpTime = gpGlobals->curtime;
 				}
 			}
-		}
+		}*/
 	}
 }
 
 bool CThirdPersonManager::WantToUseGameThirdPerson( void )
 {
 	return true;
-	return cl_thirdperson.GetBool() && GameRules() && GameRules()->AllowThirdPersonCamera() && IsOverridingThirdPerson() == false;
+	//return cl_thirdperson.GetBool() && GameRules() && GameRules()->AllowThirdPersonCamera() && IsOverridingThirdPerson() == false;
 }
 
 
