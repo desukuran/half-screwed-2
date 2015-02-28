@@ -27,6 +27,7 @@ ConVar bot_forcefireweapon( "bot_forcefireweapon", "", 0, "Force bots with the s
 ConVar bot_forceattack2( "bot_forceattack2", "0", 0, "When firing, use attack2." );
 ConVar bot_forceattackon( "bot_forceattackon", "0", 0, "When firing, don't tap fire, hold it down." );
 ConVar bot_flipout( "bot_flipout", "0", 0, "When on, all bots fire their guns." );
+ConVar bot_chat( "bot_chat", "0", 0, "When on, bots will start chatting." );
 ConVar bot_defend( "bot_defend", "0", 0, "Set to a team number, and that team will all keep their combat shields raised." );
 ConVar bot_changeclass( "bot_changeclass", "0", 0, "Force all bots to change to the specified class." );
 ConVar bot_zombie( "bot_zombie", "0", 0, "Brraaaaaiiiins." );
@@ -388,7 +389,7 @@ void Bot_Think( CHL2MP_Player *pBot )
 				// Respawn the bot
 				if ( random->RandomInt( 0, 1 ) == 0 )
 				{
-					buttons |= IN_JUMP;
+					buttons |= IN_ATTACK;
 				}
 				else
 				{
@@ -423,6 +424,11 @@ void Bot_Think( CHL2MP_Player *pBot )
 		botdata->lastAngles[ 2 ] = 0;
 
 		pBot->SetLocalAngles( botdata->lastAngles );
+	}
+
+	if (bot_chat.GetInt() > 0)
+	{
+		//TODOHS: Chatter.
 	}
 
 	RunPlayerMove( pBot, pBot->GetLocalAngles(), forwardmove, sidemove, upmove, buttons, impulse, frametime );

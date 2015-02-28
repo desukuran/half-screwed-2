@@ -183,7 +183,7 @@ void CBaseGrenade::Explode( trace_t *pTrace, int bitsDamageType )
 	SetThink( &CBaseGrenade::SUB_Remove );
 	SetTouch( NULL );
 	SetSolid( SOLID_NONE );
-	
+
 	AddEffects( EF_NODRAW );
 	SetAbsVelocity( vec3_origin );
 
