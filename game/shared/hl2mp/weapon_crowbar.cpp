@@ -20,6 +20,7 @@
 #else
 	#include "hl2mp_player.h"
 	#include "ai_basenpc.h"
+	#include "prop_combine_ball.h"
 #endif
 
 
@@ -211,11 +212,30 @@ int CWeaponCrowbar::WeaponMeleeAttack1Condition( float flDot, float flDist )
 
 void CWeaponCrowbar::PrimaryAttack()
 {
-	CBasePlayer *pPlayer  = ToBasePlayer( GetOwner() );
+	CBasePlayer *pOwner  = ToBasePlayer( GetOwner() );
 
 		//HSTODO: Make the beam.
-		if (pPlayer->GetHealth() == 100)
-			EmitSound("Weapon.SwordBeam");
+		if (pOwner->GetHealth() == 100)
+		{
+				// Fire the bullets
+	Vector vecSrc	 = pOwner->Weapon_ShootPosition( );
+	Vector vecAiming = pOwner->GetAutoaimVector( AUTOAIM_2DEGREES );
+	Vector impactPoint = vecSrc + ( vecAiming * MAX_TRACE_LENGTH );
+
+	// Fire the bullets
+	Vector vecVelocity = vecAiming * 1000.0f;
+
+#ifndef CLIENT_DLL
+	// Fire the combine ball
+	CreateSwordBeam(	vecSrc, 
+						vecVelocity, 
+						10, //Radius 
+						150, //Mass
+						2, //Duration
+						pOwner );
+
+#endif
+		}
 
 	return CBaseHL2MPBludgeonWeapon::PrimaryAttack();
 }

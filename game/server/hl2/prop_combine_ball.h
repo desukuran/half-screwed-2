@@ -289,7 +289,9 @@ private:
 };
 
 // Creates a combine ball
-CBaseEntity *CreateCombineBall( const Vector &origin, const Vector &velocity, float radius, float mass, float lifetime, CBaseEntity *pOwner );
+CBaseEntity *CreateCombineBall( const Vector &origin, const Vector &velocity, float radius, float mass, float lifetime, CBaseEntity *pOwner );\
+
+CBaseEntity *CreateSwordBeam( const Vector &origin, const Vector &velocity, float radius, float mass, float lifetime, CBaseEntity *pOwner );\
 
 // Query function to find out if a physics object is a combine ball (used for collision checks)
 bool UTIL_IsCombineBall( CBaseEntity *pEntity );

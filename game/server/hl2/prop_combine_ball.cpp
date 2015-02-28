@@ -94,6 +94,39 @@ CBaseEntity *CreateCombineBall( const Vector &origin, const Vector &velocity, fl
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : radius - 
+// Output : CBaseEntity
+//-----------------------------------------------------------------------------
+CBaseEntity *CreateSwordBeam( const Vector &origin, const Vector &velocity, float radius, float mass, float lifetime, CBaseEntity *pOwner )
+{
+	CPropCombineBall *pBall = static_cast<CPropCombineBall*>( CreateEntityByName( "prop_combine_ball" ) );
+	pBall->SetRadius( radius );
+
+	pBall->SetAbsOrigin( origin );
+	pBall->SetOwnerEntity( pOwner );
+	pBall->SetOriginalOwner( pOwner );
+
+	pBall->SetAbsVelocity( velocity );
+	pBall->Spawn();
+
+	pBall->SetState( CPropCombineBall::STATE_THROWN );
+	pBall->SetSpeed( velocity.Length() );
+
+	pBall->EmitSound( "Weapon.SwordBeam" );
+
+	PhysSetGameFlags( pBall->VPhysicsGetObject(), FVPHYSICS_WAS_THROWN );
+
+	pBall->StartWhizSoundThink();
+
+	pBall->SetMass( mass );
+	pBall->StartLifetime( lifetime );
+	pBall->SetWeaponLaunched( true );
+
+	return pBall;
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: Allows game to know if the physics object should kill allies or not
 //-----------------------------------------------------------------------------
 CBasePlayer *CPropCombineBall::HasPhysicsAttacker( float dt )
